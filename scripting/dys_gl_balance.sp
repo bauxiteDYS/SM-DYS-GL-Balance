@@ -17,7 +17,7 @@ public Plugin myinfo = {
 	name = "Dys GL balance",
 	description = "Modifies GL to be a bit more balanced",
 	author = "bauxite",
-	version = "0.1.0",
+	version = "0.1.1",
 	url = "",
 };
 
@@ -82,12 +82,14 @@ public Action OnTakeDamage(int victim, int& attacker, int& inflictor, float& dam
 	{
 		return Plugin_Continue;
 	}
-	
+
+	/*
 	if(victim == attacker)
 	{
 		return Plugin_Continue;
 	}
-	
+	*/
+
 	if(!g_fullDamage[inflictor])
 	{
 		damage = 61.0;
