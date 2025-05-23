@@ -90,7 +90,7 @@ public Action OnTakeDamage(int victim, int& attacker, int& inflictor, float& dam
 	}
 	*/
 
-	if(!g_fullDamage[inflictor])
+	if(!g_fullDamage[inflictor]) // bug if direct hit
 	{
 		damage = 61.0;
 		return Plugin_Changed;
