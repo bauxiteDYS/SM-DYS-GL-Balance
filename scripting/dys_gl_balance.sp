@@ -7,6 +7,7 @@
 
 
 // default radius 225 damage 85
+// reduced damage <0.3s 61
 
 static bool _late_load;
 
@@ -17,7 +18,7 @@ public Plugin myinfo = {
 	name = "Dys GL balance",
 	description = "Modifies GL to be a bit more balanced",
 	author = "bauxite",
-	version = "0.1.1",
+	version = "0.1.2",
 	url = "",
 };
 
@@ -89,8 +90,15 @@ public Action OnTakeDamage(int victim, int& attacker, int& inflictor, float& dam
 		return Plugin_Continue;
 	}
 	*/
-
-	if(!g_fullDamage[inflictor]) // bug if direct hit
+	
+	// direct hit is always 1.0 damage, so we check that here, otherwise direct hit would be too powerful
+	
+	if(damage == 1.0) 
+	{
+		return Plugin_Continue;
+	}
+	
+	if(!g_fullDamage[inflictor])
 	{
 		damage = 61.0;
 		return Plugin_Changed;
