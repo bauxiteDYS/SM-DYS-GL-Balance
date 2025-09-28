@@ -6,6 +6,8 @@
 #include <dhooks>
 
 
+#define DEBUG false
+
 // default radius 225 damage 85
 // reduced damage <0.3s 61
 
@@ -18,7 +20,7 @@ public Plugin myinfo = {
 	name = "Dys GL balance",
 	description = "Modifies GL to be a bit more balanced",
 	author = "bauxite",
-	version = "0.1.2",
+	version = "0.1.3",
 	url = "",
 };
 
@@ -44,7 +46,9 @@ public void OnPluginStart()
 			}
 			else
 			{
+				#if DEBUG
 				PrintToServer("Hook ok!");
+				#endif
 			}
 		}
 	}
@@ -60,12 +64,23 @@ public void OnClientPutInServer(int client)
 
 public Action OnTakeDamage(int victim, int& attacker, int& inflictor, float& damage, int& damagetype, int& weapon, float damageForce[3], float damagePosition[3])
 {	
-	/*
+	#if DEBUG
 	PrintToServer("victim %d", victim);
 	PrintToServer("attacker %d", attacker);
 	PrintToServer("inflictor %d", inflictor);
 	PrintToServer("damage %f", damage);
-	*/
+	PrintToServer("damagetype %d", damagetype);
+	
+	if(!(damagetype & DMG_BLAST))
+	{
+		PrintToServer("NOT blast damage");
+	}
+	else
+	{
+		PrintToServer("YES blast damage");
+	}
+	#endif
+	
 	
 	if (!IsValidEntity(inflictor))
 	{
@@ -91,10 +106,15 @@ public Action OnTakeDamage(int victim, int& attacker, int& inflictor, float& dam
 	}
 	*/
 	
-	// direct hit is always 1.0 damage, so we check that here, otherwise direct hit would be too powerful
+	// direct hit is always 1.0 damage, so we can check that here, otherwise direct hit would be too powerful
+	// however we can just check if the damagetype bits dont have the DMG_BLAST flag then that should be a direct hit
 	
-	if(damage == 1.0) 
+	if(!(damagetype & DMG_BLAST))
 	{
+		#if DEBUG
+		PrintToServer("IGNORING, not blast damage");
+		#endif
+		
 		return Plugin_Continue;
 	}
 	
